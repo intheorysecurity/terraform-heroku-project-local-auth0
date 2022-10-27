@@ -1,0 +1,24 @@
+//Company Branding BLOCK
+background_image_url = "<background_image_url>"
+company_name         = "Company Name"
+logo_url             = "<logo_url>"
+
+//AUTH0 BLOCK
+auth0_application_name = "Company Nodejs Application"
+auth0_domain = "https://domain.us.auth0.com"
+auth0_client_id = "<CLIENT_ID>"
+auth0_client_secret = "<CLIENT_SECRET>"
+auth0_resource_server_identifier = "audience.resourceserver.com"
+//Optional
+#auth0_debug = true
+#auth0_use_custom_domain = true
+#auth0_custom_domain_url="<Custom Domain>"
+
+
+//HEROKU BLOCK
+heroku_email    = "<HEROKU EMAIL>"
+heroku_api_key  = "<HEROKU API KEY>"
+heroku_app_name = "<HEROKU APP NAME>"
+
+//Application Src Directory
+# app_local_path = "src/project"
