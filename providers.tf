@@ -5,7 +5,7 @@ terraform {
       version = "5.1.1"
     }
     auth0 = {
-      source = "auth0/auth0"
+      source  = "auth0/auth0"
       version = "0.37.0"
     }
   }
