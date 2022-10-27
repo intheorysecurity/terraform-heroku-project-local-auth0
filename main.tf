@@ -66,7 +66,7 @@ resource "auth0_custom_domain" "my_custom_domain" {
 //Step 7 Update Verify Email Template
 resource "auth0_email_template" "verify_email" {
   template                = "verify_email"
-  body                    = templatefile("${path.cwd}/../customEmails/verification.html", { logo_url = "${var.logo_url}", company_name = "${var.company_name}" })
+  body                    = templatefile("${path.cwd}/customEmails/verification.html", { logo_url = "${var.logo_url}", company_name = "${var.company_name}" })
   from                    = "welcome@intheorysecurity.com"
   subject                 = "Hello {{user.email}}, please verify your email address!!!"
   syntax                  = "liquid"
@@ -77,7 +77,7 @@ resource "auth0_email_template" "verify_email" {
 //Step 8 Update Verify Email Template
 resource "auth0_email_template" "passwordreset_email" {
   template                = "reset_email"
-  body                    = templatefile("${path.cwd}/../customEmails/passwordreset.html", { logo_url = "${var.logo_url}", company_name = "${var.company_name}" })
+  body                    = templatefile("${path.cwd}/customEmails/passwordreset.html", { logo_url = "${var.logo_url}", company_name = "${var.company_name}" })
   from                    = "password@intheorysecurity.com"
   subject                 = "So you forgot your password?"
   syntax                  = "liquid"
