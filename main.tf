@@ -59,11 +59,12 @@ resource "auth0_client_grant" "my_management_grant" {
 
 //Step 6 Add custom domain
 resource "auth0_custom_domain" "my_custom_domain" {
+  count  = var.auth0_custom_domain ? 1 : 0
   domain = var.auth0_custom_domain_url
   type   = "auth0_managed_certs"
 }
 
-//Step 7 Update Verify Email Template
+//Step 7 Update Verify Email Template (This only works if you have an email provider configured)
 resource "auth0_email_template" "verify_email" {
   template                = "verify_email"
   body                    = templatefile("${path.cwd}/customEmails/verification.html", { logo_url = "${var.logo_url}", company_name = "${var.company_name}" })
@@ -74,7 +75,7 @@ resource "auth0_email_template" "verify_email" {
   enabled                 = true
 }
 
-//Step 8 Update Verify Email Template
+//Step 8 Update Verify Email Template (This only works if you have an email provider configured)
 resource "auth0_email_template" "passwordreset_email" {
   template                = "reset_email"
   body                    = templatefile("${path.cwd}/customEmails/passwordreset.html", { logo_url = "${var.logo_url}", company_name = "${var.company_name}" })
@@ -85,7 +86,19 @@ resource "auth0_email_template" "passwordreset_email" {
   enabled                 = true
 }
 
-//STEP 9 Create Heroku app
+//STEP 9 Add Update ID Token Action to Auth0 Tenant
+resource "auth0_action" "id_token_enhancement" {
+  name    = "Add Attributes to ID Token"
+  runtime = "node16"
+  deploy  = true
+  code    = templatefile("${path.cwd}/src/actions/id_token_enchancement.js", { client_id = "${auth0_client.nodejs_application.client_id}" })
+  supported_triggers {
+    id      = "post-login"
+    version = "v3"
+  }
+}
+
+//STEP 10 Create Heroku app
 resource "heroku_app" "default" {
   name   = var.heroku_app_name
   region = "us"
@@ -108,7 +121,7 @@ resource "heroku_app" "default" {
   ]
 }
 
-//STEP 10 Upload Project Src to Heroku
+//STEP 11 Upload Project Src to Heroku
 resource "heroku_build" "nodejsapp" {
   app_id = heroku_app.default.id
 
@@ -119,11 +132,11 @@ resource "heroku_build" "nodejsapp" {
   }
 }
 
-//STEP 11 Add Record to AWS instance Route63
+//STEP 12 Add Record to AWS instance Route63
 
-//STEP 12 Add MFA Action and enhance AccessToken
+//STEP XX Add MFA Action and enhance AccessToken
 
-//STEP 13 Update Bot Detection Config 
+//STEP XX Update Bot Detection Config 
 
 //OUTPUT Section
 output "heroku_app_url" {
