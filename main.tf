@@ -91,7 +91,19 @@ resource "auth0_action" "id_token_enhancement" {
   name    = "Add Attributes to ID Token"
   runtime = "node16"
   deploy  = true
-  code    = templatefile("${path.cwd}/src/actions/id_token_enchancement.js", { client_id = "${auth0_client.nodejs_application.client_id}" })
+  code    = templatefile("${path.cwd}/src/actions/id_token_enhancement.js", { client_id = "${auth0_client.nodejs_application.client_id}" })
+  supported_triggers {
+    id      = "post-login"
+    version = "v3"
+  }
+}
+
+//ADD Step Up MFA Action
+resource "auth0_action" "setup_mfa" {
+  name    = "Step MFA based on Sensitive Scopes"
+  runtime = "node16"
+  deploy  = true
+  code    = templatefile("${path.cwd}/src/actions/setup_mfa.js")
   supported_triggers {
     id      = "post-login"
     version = "v3"
